@@ -1,31 +1,33 @@
-const browsers = require("./browsers");
-
 module.exports = isProd => {
   // assume dev/HMR values initially
-  let css={ minimize:isProd }, arr=[{ loader:'style-loader' }];
-
-  if (isProd) {
-    arr = [];
-    css.localIdentName = "[local]";
-    css.modules = css.sourceMap = css.importLoaders = true;
-  }
+  let arr = [{ loader: "style-loader" }];
+  if (isProd) arr = [];
 
   return arr.concat(
     {
       loader: "css-loader",
-      options: css
-    }, {
+      options: {
+        sourceMap: isProd,
+        modules: {
+          localIdentName: "[local]"
+        },
+        importLoaders: isProd
+      }
+    },
+    {
       loader: "postcss-loader",
       options: {
-        sourceMap: "inline",
-        plugins: [
-          require("autoprefixer")({ browsers })
-        ]
+        sourceMap: true,
+        postcssOptions: {
+          plugins: [require("autoprefixer")]
+        }
       }
-    }, {
+    },
+    {
       loader: "sass-loader",
       options: {
-        sourceMap: true
+        sourceMap: true,
+        implementation: require("sass")
       }
     }
   );

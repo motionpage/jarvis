@@ -34,17 +34,17 @@ export default class Board extends Component {
     modules: {
       cjs: [],
       esm: [],
-      mixed: []
+      mixed: [],
     },
     logs: [],
     performance: {},
-    project: {}
+    project: {},
   };
   componentDidMount() {
-    socket.on("project", report => {
+    socket.on("project", (report) => {
       this.setState({ project: report });
     });
-    socket.on("stats", report => {
+    socket.on("stats", (report) => {
       let logs = [];
       if (report.errors && report.errors.length > 0) {
         logs = report.errors;
@@ -64,18 +64,18 @@ export default class Board extends Component {
         modules: report.modules || [],
         performance: report.performance || {},
         assetsSize: report.assetsSize || "NaN",
-        logs: logs
+        logs: logs,
       });
     });
-    socket.on("progress", data => {
+    socket.on("progress", (data) => {
       this.setState({ progress: data });
       if (data.message.toLowerCase() !== "idle") {
         this.setState({
           progress: data,
           logs: [
             `<p>${data.message}</p>`,
-            `<p>${(data.percentage * 100).toFixed(2)}%</p>`
-          ]
+            `<p>${(data.percentage * 100).toFixed(2)}%</p>`,
+          ],
         });
       }
     });
@@ -83,7 +83,9 @@ export default class Board extends Component {
   render(props, state) {
     const ico =
       state.progress.percentage >= 1
-        ? state.errors.length > 0 ? "failure" : "success"
+        ? state.errors.length > 0
+          ? "failure"
+          : "success"
         : "building";
 
     return (

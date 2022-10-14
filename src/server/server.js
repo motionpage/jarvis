@@ -13,7 +13,7 @@ const { join } = require("path");
 const client = join(__dirname, "..");
 
 exports.init = (compiler, isDev) => {
-  let app = polka().use(statics(client));
+  const app = polka().use(statics(client));
 
   if (isDev) {
     compiler.outputPath = "/"; // wtf?
@@ -22,10 +22,10 @@ exports.init = (compiler, isDev) => {
       require("webpack-hot-middleware")(compiler, {
         heartbeat: 1e4, // 10s
         path: "/__webpack_hmr",
-        reload: true
+        reload: true,
       })
     );
   }
-  let http = app.server;
-  return { http, io: socket(http) };
+  const http = app.server;
+  return { http: app, io: socket(http) };
 };

@@ -16,18 +16,14 @@ class Jarvis {
 
     if (opts.port && isNaN(opts.port)) {
       console.error(
-        `[JARVIS] error: the specified port (${
-          opts.port
-        }) is invalid. Reverting to 1337`
+        `[JARVIS] error: the specified port (${opts.port}) is invalid. Reverting to 1337`
       );
       opts.port = 1337;
     }
 
     if (opts.packageJsonPath && !fs.existsSync(opts.packageJsonPath)) {
       console.warn(
-        `[JARVIS] warning: the specified path (${
-          opts.packageJsonPath
-        }) does not exist. Falling back to ${currentWorkingDirectory}`
+        `[JARVIS] warning: the specified path (${opts.packageJsonPath}) does not exist. Falling back to ${currentWorkingDirectory}`
       ); //Fallback to cwd and warn
       opts.packageJsonPath = currentWorkingDirectory;
     }
@@ -42,13 +38,13 @@ class Jarvis {
       jarvisEnv: jarvisEnv,
       clientEnv: "development",
       running: false, // indicator if our express server + sockets are running
-      watching: false
+      watching: false,
     };
 
     this.reports = {
       stats: {},
       progress: {},
-      project: {}
+      project: {},
     };
 
     this.pkg = importFrom(this.options.packageJsonPath, "./package.json");
@@ -61,7 +57,7 @@ class Jarvis {
 
     // check if the current build is production, via defined plugin
     const definePlugin = compiler.options.plugins.find(
-      fn => fn.constructor.name === "DefinePlugin"
+      (fn) => fn.constructor.name === "DefinePlugin"
     );
 
     if (definePlugin) {
@@ -83,12 +79,12 @@ class Jarvis {
         compiler,
         this.env.jarvisEnv === "development"
       );
-      jarvis.http.listen(port, host, _ => {
+      jarvis.http.listen(port, host, (_) => {
         console.log(`[JARVIS] Starting dashboard on: http://${host}:${port}`);
         this.env.running = true;
         jarvisBooting = false;
         // if a new client is connected push current bundle info
-        jarvis.io.on("connection", socket => {
+        jarvis.io.on("connection", (socket) => {
           socket.emit("project", this.reports.project);
           socket.emit("progress", this.reports.progress);
           socket.emit("stats", this.reports.stats);
@@ -100,31 +96,29 @@ class Jarvis {
       bootJarvis();
     }
 
-    compiler.plugin("watch-run", (c, done) => {
-      if (this.options.watchOnly) {
-        bootJarvis();
-      }
+    compiler.hooks.watchRun.tap("webpack-jarvis", (c) => {
+      if (this.options.watchOnly) bootJarvis();
       this.env.watching = true;
-      done();
+      return c.hooks.done.tap("webpack-jarvis", () => true);
     });
 
-    compiler.plugin("run", (c, done) => {
+    compiler.hooks.run.tap("webpack-jarvis", (c) => {
       this.env.watching = false;
-      done();
+      return c.hooks.done.tap("webpack-jarvis", () => true);
     });
 
     // report the webpack compiler progress
-    compiler.apply(
-      new webpack.ProgressPlugin((percentage, message) => {
-        this.reports.progress = { percentage, message };
-        if (this.env.running) {
-          jarvis.io.emit("progress", { percentage, message });
-        }
-      })
-    );
+    //compiler.apply(
+    //  new webpack.ProgressPlugin((percentage, message) => {
+    //    this.reports.progress = { percentage, message };
+    //    if (this.env.running) {
+    //      jarvis.io.emit("progress", { percentage, message });
+    //    }
+    //  })
+    //);
 
     // extract the final reports from the stats!
-    compiler.plugin("done", stats => {
+    compiler.hooks.done.tap("webpack-jarvis", (stats) => {
       if (!this.env.running) return;
 
       const jsonStats = stats.toJson({ chunkModules: true });

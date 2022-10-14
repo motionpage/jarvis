@@ -1,4 +1,4 @@
-const Formatter = require("ansi-to-html");
+const Convert = require("ansi-to-html");
 
 function configAnalyser(configs) {
   const hasPerformanceBudget =
@@ -9,8 +9,8 @@ function configAnalyser(configs) {
 
 function _formattedError(errors = []) {
   const newFormat = { newline: true, escapeXML: true };
-  const formatter = new Formatter(newFormat);
-  return errors.map(error => formatter.toHtml(error));
+  const formatter = new Convert(newFormat);
+  return errors.map((error) => formatter.toHtml(JSON.stringify(error)));
 }
 
 const successFooter = `<div class="stats-success-footer">
@@ -38,18 +38,18 @@ const MODULE_TYPES = {
   "harmony import": "esm",
   "module.hot.accept": "esm",
   "harmony accept": "esm",
-  "cjs require": "cjs"
+  "cjs require": "cjs",
 };
 
 function _transformModules(modules = []) {
   const table = { cjs: [], esm: [], mixed: [] };
 
-  modules.forEach(module => {
+  modules.forEach((module) => {
     const { name, size, reasons } = module;
-    const hasEsm = reasons.some(re => MODULE_TYPES[re.type] === "esm");
-    const hasCjs = reasons.some(re => MODULE_TYPES[re.type] === "cjs");
+    const hasEsm = reasons.some((re) => MODULE_TYPES[re.type] === "esm");
+    const hasCjs = reasons.some((re) => MODULE_TYPES[re.type] === "cjs");
 
-    const transformedReasons = reasons.map(re => {
+    const transformedReasons = reasons.map((re) => {
       return { by: re.moduleName, type: re.type };
     });
 
@@ -81,11 +81,11 @@ function statsReporter(statsJson, env) {
     success: _formattedSuccessfulRun(statsJson),
     time: statsJson.time || 0,
     modules: _transformModules(statsJson.modules),
-    assetsSize: assetSize
+    assetsSize: assetSize,
   };
 }
 
 module.exports = {
   configAnalyser,
-  statsReporter
+  statsReporter,
 };

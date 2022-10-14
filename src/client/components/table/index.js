@@ -7,12 +7,12 @@ import { readableBytes } from "../../helpers/utils";
 export default class Table extends Component {
   state = {
     selected: "all",
-    sortBy: "name"
+    sortBy: "name",
   };
-  selectModuleType = type => {
+  selectModuleType = (type) => {
     this.setState({ selected: type });
   };
-  selectSortMode = mode => {
+  selectSortMode = (mode) => {
     this.setState({ sortBy: mode });
   };
   sortData = (a, b) => {
@@ -55,7 +55,7 @@ export default class Table extends Component {
             <div className="type">Treeshakable</div>
             <div className="count">{esmCount}</div>
             <div className="percentage">
-              {Math.round(esmCount / totalCount * 100) + "%"}{" "}
+              {Math.round((esmCount / totalCount) * 100) + "%"}{" "}
             </div>
           </li>
           <li
@@ -66,7 +66,7 @@ export default class Table extends Component {
             <div className="type">Non-Treeshakable</div>
             <div className="count">{cjsCount}</div>
             <div className="percentage">
-              {Math.round(cjsCount / totalCount * 100) + "%"}
+              {Math.round((cjsCount / totalCount) * 100) + "%"}
             </div>
           </li>
           <li
@@ -77,13 +77,13 @@ export default class Table extends Component {
             <div className="type">Mixed Modules</div>
             <div className="count">{mixedCount}</div>
             <div className="percentage">
-              {Math.round(mixedCount / totalCount * 100) + "%"}
+              {Math.round((mixedCount / totalCount) * 100) + "%"}
             </div>
           </li>
         </ul>
         <ul class="table-body two-col">
           <div>
-            {sortedData.map(module => (
+            {sortedData.map((module) => (
               <li>
                 <div className="col">
                   {module.name}

@@ -1,23 +1,6 @@
-const browsers = require("./browsers");
-
 module.exports = {
   babelrc: false,
-  presets: [
-    [
-      "babel-preset-env",
-      {
-        loose: true,
-        uglify: true,
-        modules: false, 
-        targets: { browsers },
-        exclude: [
-          "transform-regenerator",
-          "transform-es2015-typeof-symbol"
-        ]
-      }
-    ],
-    "stage-0"
-  ],
+  presets: ["@babel/preset-env"],
   plugins: [
     "babel-plugin-transform-object-assign",
     "babel-plugin-transform-decorators-legacy",
