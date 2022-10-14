@@ -7,7 +7,8 @@ module.exports = isProd => {
     {
       loader: "css-loader",
       options: {
-        sourceMap: isProd,
+        //sourceMap: isProd,
+        sourceMap: true,
         modules: {
           localIdentName: "[local]"
         },
