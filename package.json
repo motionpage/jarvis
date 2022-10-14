@@ -14,7 +14,7 @@
     "copy:server": "ncp src/server dist/server",
     "copy:assets": "ncp src/index.html dist/index.html && ncp src/assets dist/assets",
     "build": "webpack --node-env=production --config config/webpack && npm run copy:server && npm run copy:assets",
-    "watch": "JARVIS_ENV=development webpack --node-env=development --config config/webpack"
+    "watch": "webpack --node-env=development --config config/webpack"
   },
   "engines": {
     "node": ">=6.0.0"
@@ -77,7 +77,7 @@
     "raw-loader": "^4.0.2",
     "sass": "^1.55.0",
     "sass-loader": "^13.1.0",
-    "serve-static": "^1.15.0",
+    "sirv": "^2.0.2",
     "style-loader": "^3.3.1",
     "svg-url-loader": "^8.0.0",
     "webpack": "^5.74.0",

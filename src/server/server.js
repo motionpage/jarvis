@@ -6,18 +6,19 @@
  */
 
 const polka = require("polka");
-const socket = require("socket.io");
-const statics = require("serve-static");
+const io = require("socket.io");
 const { join } = require("path");
+const http = require("http");
+const sirv = require("sirv");
 
 const webpackDevMiddleware = require("webpack-dev-middleware");
 const webpackHotMiddleware = require("webpack-hot-middleware");
 
-const client = join(__dirname, "..");
+const files = sirv(join(__dirname, ".."));
+const server = http.createServer();
 
 exports.init = (compiler, isDev) => {
-  const app = polka();
-  app.use(statics(client));
+  const app = polka({ server }).use(files);
 
   if (isDev) {
     app.use(webpackDevMiddleware(compiler, { publicPath: "/" }));
@@ -29,6 +30,5 @@ exports.init = (compiler, isDev) => {
       })
     );
   }
-  const http = app.server;
-  return { http: app, io: socket(http) };
+  return { http: app, io };
 };

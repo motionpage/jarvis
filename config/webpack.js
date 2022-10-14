@@ -29,7 +29,12 @@ module.exports = env => {
     //  entry
     //];
     // Add dev-only plugins
-    plugins.push(new Jarvis());
+    plugins.push(
+      new Jarvis({
+        //packageJsonPath:
+        //  "/Users/rados/Local Sites/motionpage/app/public/wp-content/plugins/motionpage/"
+      })
+    );
   }
 
   return {

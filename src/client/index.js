@@ -9,11 +9,6 @@ function init() {
   root = render(<App />, document.getElementById("app"), root);
 }
 
-//if (module.hot) {
-//  require("preact/devtools");
-//  module.hot.accept("./components/app", init);
-//}
-
-//if (module.hot) module.hot.accept("./app", init);
+if (module.hot) module.hot.accept("./components/app", init);
 
 init();

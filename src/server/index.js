@@ -1,4 +1,3 @@
-const webpack = require("webpack");
 const authors = require("parse-authors");
 const importFrom = require("import-from"); // used to get the users project details form their working dir
 const reporter = require("./reporter-util"); // webpack stats formatters & helpers
@@ -30,22 +29,21 @@ class Jarvis {
 
     this.options = opts;
 
-    let jarvisEnv = "production";
-    if (process.env.JARVIS_ENV && process.env.JARVIS_ENV === "development") {
-      jarvisEnv = "development";
-    }
     this.env = {
-      jarvisEnv: jarvisEnv,
-      clientEnv: "development",
+      clientEnv: process.env.NODE_ENV,
       running: false, // indicator if our express server + sockets are running
       watching: false,
     };
+
+    this.sockets = {};
 
     this.reports = {
       stats: {},
       progress: {},
       project: {},
     };
+
+    this.sokr;
 
     this.pkg = importFrom(this.options.packageJsonPath, "./package.json");
   }
@@ -54,18 +52,6 @@ class Jarvis {
     const normalizedAuthor = parseAuthor(makers);
 
     this.reports.project = { name, version, makers: normalizedAuthor };
-
-    // check if the current build is production, via defined plugin
-    const definePlugin = compiler.options.plugins.find(
-      (fn) => fn.constructor.name === "DefinePlugin"
-    );
-
-    if (definePlugin) {
-      const pluginNodeEnv = definePlugin["definitions"]["process.env.NODE_ENV"];
-      if (pluginNodeEnv === "production") {
-        this.env.clientEnv === "production";
-      }
-    }
 
     let jarvis;
     let jarvisBooting;
@@ -77,17 +63,23 @@ class Jarvis {
       jarvisBooting = true;
       jarvis = this.server = server.init(
         compiler,
-        this.env.jarvisEnv === "development"
+        this.env.clientEnv === "development"
       );
+
       jarvis.http.listen(port, host, (_) => {
         console.log(`[JARVIS] Starting dashboard on: http://${host}:${port}`);
         this.env.running = true;
         jarvisBooting = false;
         // if a new client is connected push current bundle info
-        jarvis.io.on("connection", (socket) => {
+        jarvis.io(jarvis.http.server).on("connection", (socket) => {
+          this.sokr = socket;
+          this.sockets[socket.id] = socket;
           socket.emit("project", this.reports.project);
           socket.emit("progress", this.reports.progress);
           socket.emit("stats", this.reports.stats);
+          //socket.on("disconnect", () => {
+          //  delete this.sockets[socket.id];
+          //});
         });
       });
     };
@@ -119,12 +111,12 @@ class Jarvis {
 
     // extract the final reports from the stats!
     compiler.hooks.done.tap("webpack-jarvis", (stats) => {
-      if (!this.env.running) return;
+      console.log("DONE");
+      //if (!this.env.running) return;
 
       const jsonStats = stats.toJson({ chunkModules: true });
       jsonStats.isDev = this.env.clientEnv === "development";
       this.reports.stats = reporter.statsReporter(jsonStats);
-      jarvis.io.emit("stats", this.reports.stats);
     });
   }
 }

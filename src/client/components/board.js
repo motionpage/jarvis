@@ -43,9 +43,11 @@ export default class Board extends Component {
 
   componentDidMount() {
     socket.on("project", (report) => {
+      console.log("report", report);
       this.setState({ project: report });
     });
     socket.on("stats", (report) => {
+      console.log("stats", report);
       let logs = [];
       if (report.errors && report.errors.length > 0) {
         logs = report.errors;
@@ -69,6 +71,7 @@ export default class Board extends Component {
       });
     });
     socket.on("progress", (data) => {
+      console.log("progress", report);
       this.setState({ progress: data });
       if (data.message.toLowerCase() !== "idle") {
         this.setState({
@@ -80,6 +83,7 @@ export default class Board extends Component {
         });
       }
     });
+    window.io = socket;
   }
   render(props, state) {
     const ico =
