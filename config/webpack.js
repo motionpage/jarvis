@@ -1,9 +1,7 @@
 const { join, resolve } = require("path");
-const webpack = require("webpack");
-const ExtractTextPlugin = require("extract-text-webpack-plugin");
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
 const Jarvis = require("../src/server");
-const pkg = require("../package.json");
 
 const babel = require("./babel");
 const styles = require("./style");
@@ -24,12 +22,7 @@ module.exports = env => {
 
   if (isProd) {
     babel.plugins.push("babel-plugin-transform-react-remove-prop-types");
-    plugins.push(
-      new ExtractTextPlugin({
-        filename: "style.css",
-        allChunks: false
-      })
-    );
+    plugins.push(new MiniCssExtractPlugin({ filename: "style.css" }));
   } else {
     // Add HMR client
     //entry = [
@@ -37,7 +30,7 @@ module.exports = env => {
     //  entry
     //];
     // Add dev-only plugins
-    plugins.push(new webpack.HotModuleReplacementPlugin(), new Jarvis());
+    plugins.push(new Jarvis());
   }
 
   return {
@@ -107,12 +100,7 @@ module.exports = env => {
         },
         {
           test: /(\.css|\.scss)$/,
-          use: isProd
-            ? ExtractTextPlugin.extract({
-                fallback: "style-loader",
-                use: cssGroup
-              })
-            : cssGroup
+          use: isProd ? [MiniCssExtractPlugin.loader, ...cssGroup] : cssGroup
         },
         {
           test: /\.jsx?$/,
