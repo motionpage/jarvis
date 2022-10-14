@@ -1,0 +1,109 @@
+@mixin base-col {
+	box-sizing: border-box;
+	flex: 0 0 auto;
+	padding-right: 5px;
+	padding-left: 5px;
+}
+
+@mixin get-columns($size) {
+	@for $i from 0 through 12 {
+		@if $i == 0 {
+			.col-#{$size},
+			.col-#{$size}-offset-#{$i} {
+				@include base-col;
+			}
+
+			.col-#{$size} {
+				flex-grow: 1;
+				flex-basis: 0;
+				max-width: 100%;
+			}
+
+			.col-#{$size}-offset-#{$i} {
+				margin-left: 0;
+			}
+		} @else {
+			$width: 8.33333333% * $i;
+
+			.col-#{$size}-#{$i},
+			.col-#{$size}-offset-#{$i} {
+				@include base-col;
+			}
+
+			.col-#{$size}-#{$i} {
+				flex-basis: $width;
+				max-width: $width;
+			}
+
+			.col-#{$size}-offset-#{$i} {
+				margin-left: $width;
+			}
+		}
+	}
+}
+
+@mixin get-placement($size) {
+	.start-#{$size} {
+		justify-content: flex-start;
+		text-align: start;
+	}
+
+	.center-#{$size} {
+		justify-content: center;
+		text-align: center;
+	}
+
+	.end-#{$size} {
+		justify-content: flex-end;
+		text-align: end;
+	}
+
+	.top-#{$size} {
+		align-items: flex-start;
+	}
+	.middle-#{$size} {
+		align-items: center;
+	}
+	.bottom-#{$size} {
+		align-items: flex-end;
+	}
+	.around-#{$size} {
+		justify-content: space-around;
+	}
+	.between-#{$size} {
+		justify-content: space-between;
+	}
+	.first-#{$size} {
+		order: -1;
+	}
+	.last-#{$size} {
+		order: 1;
+	}
+}
+
+$medias: (
+	xs: "",
+	sm: (
+		48em: 49rem,
+	),
+	md: (
+		64em: 65rem,
+	),
+	lg: (
+		75em: 76rem,
+	),
+);
+
+@each $size, $val in $medias {
+	@if $size == xs {
+		@include get-columns($size);
+	} @else {
+		@media only screen and (min-width: map-keys($val)) {
+			@include get-columns($size);
+			.container {
+				width: map-values($val);
+			}
+			@include get-placement($size);
+		}
+	}
+}

@@ -6,6 +6,7 @@
   "files": [
     "dist"
   ],
+  "type": "module",
   "scripts": {
     "precommit": "lint-staged",
     "contributors:add": "all-contributors add",
@@ -44,7 +45,8 @@
     "react-favicon": "^1.0.1",
     "socket.io": "^4.5.2",
     "socket.io-client": "^4.5.2",
-    "url-loader": "^4.1.1"
+    "url-loader": "^4.1.1",
+    "ws": "^8.9.0"
   },
   "devDependencies": {
     "@babel/core": "^7.19.3",

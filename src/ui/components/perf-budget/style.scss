@@ -1,0 +1,65 @@
+.budget {
+	height: 100%;
+	width: 100%;
+	position: relative;
+	font-size: 13px;
+	display: flex;
+	align-items: flex-start;
+	align-content: space-between;
+	flex-flow: row wrap;
+
+	.item {
+		background: var(--dashboard-bg-main);
+		flex: 1;
+		margin: 0.5rem;
+		height: 90px;
+		padding: 20px;
+
+		h5 {
+			font-size: var(--font-body-xs);
+			font-weight: bold;
+			color: var(--color-main);
+			text-transform: uppercase;
+			letter-spacing: 0.7px;
+			margin-bottom: 10px;
+
+			span {
+				font-size: 12px;
+				font-weight: 300;
+				text-transform: none;
+				opacity: 0.6;
+			}
+		}
+
+		.values {
+			display: flex;
+			align-items: center;
+			font-weight: 400;
+
+			label {
+				font-size: 14px;
+				color: var(foreground-light);
+				opacity: 0.6;
+			}
+
+			.time {
+				margin: 0 0.5rem;
+				color: var(foreground-main);
+			}
+
+			.high {
+				background: var(--color-error);
+				color: #fff;
+				padding: 4px 15px;
+				border-radius: 2px;
+			}
+
+			.low {
+				background: var(--color-success);
+				color: var(--dashboard-bg-main);
+				padding: 4px 15px;
+				border-radius: 2px;
+			}
+		}
+	}
+}
