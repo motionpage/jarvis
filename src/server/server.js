@@ -10,16 +10,19 @@ const socket = require("socket.io");
 const statics = require("serve-static");
 const { join } = require("path");
 
+const webpackDevMiddleware = require("webpack-dev-middleware");
+const webpackHotMiddleware = require("webpack-hot-middleware");
+
 const client = join(__dirname, "..");
 
 exports.init = (compiler, isDev) => {
-  const app = polka().use(statics(client));
+  const app = polka();
+  app.use(statics(client));
 
   if (isDev) {
-    compiler.outputPath = "/"; // wtf?
+    app.use(webpackDevMiddleware(compiler, { publicPath: "/" }));
     app.use(
-      require("webpack-dev-middleware")(compiler),
-      require("webpack-hot-middleware")(compiler, {
+      webpackHotMiddleware(compiler, {
         heartbeat: 1e4, // 10s
         path: "/__webpack_hmr",
         reload: true,

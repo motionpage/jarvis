@@ -18,10 +18,10 @@ import io from "socket.io-client";
  * Enforcing port is allowed and force_socket_port takes highest priority
  *
  */
-var _params = new URLSearchParams(window.location.search);
-let port = _params.get("force_socket_port") || document.location.port;
+const _params = new URLSearchParams(window.location.search);
+const port = _params.get("force_socket_port") || document.location.port;
 
-const socket = io(document.location.hostname + ":" + port);
+const socket = io(`${document.location.hostname}:${port}`);
 
 export default class Board extends Component {
   state = {
@@ -40,6 +40,7 @@ export default class Board extends Component {
     performance: {},
     project: {},
   };
+
   componentDidMount() {
     socket.on("project", (report) => {
       this.setState({ project: report });

@@ -1,7 +1,8 @@
 import { h } from "preact";
-
 import Board from "./board";
 
-let Main = () => <Board />;
+function Main() {
+  return <Board />;
+}
 
 export default Main;

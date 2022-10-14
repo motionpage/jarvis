@@ -1,5 +1,7 @@
 const { join, resolve } = require("path");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+//const nodeExternals = require("webpack-node-externals");
+const HtmlWebPackPlugin = require("html-webpack-plugin");
 
 const Jarvis = require("../src/server");
 
@@ -14,14 +16,11 @@ module.exports = env => {
   // Our style-loader chain
   const cssGroup = styles(isProd);
 
-  // Our entry file
-  const entry = "./src/client/index.js";
-
   // Base plugins
   const plugins = [];
 
   if (isProd) {
-    babel.plugins.push("babel-plugin-transform-react-remove-prop-types");
+    //babel.plugins.push("babel-plugin-transform-react-remove-prop-types");
     plugins.push(new MiniCssExtractPlugin({ filename: "style.css" }));
   } else {
     // Add HMR client
@@ -34,57 +33,34 @@ module.exports = env => {
   }
 
   return {
-    entry,
-    target: "web",
+    entry: {
+      bundle: "./src/client/index.js"
+    },
+    //target: "web",
+    watch: !isProd,
     mode: process.env.NODE_ENV,
     output: {
-      path: dist,
+      path: join(__dirname, "../dist"),
       publicPath: "/",
-      filename: "bundle.js"
+      filename: "[name].js"
     },
     resolve: {
       extensions: [".jsx", ".js", ".json", ".scss"],
       alias: {
-        react: "preact-compat",
-        "react-dom": "preact-compat",
-        "@Assets": resolve(__dirname, "../src/assets")
-      }
-    },
-    devServer: {
-      allowedHosts: "all",
-      client: {
-        logging: "info",
-        overlay: {
-          errors: true,
-          warnings: false
-        }
-      },
-      static: {
-        directory: join(__dirname, "../dist")
-      },
-      devMiddleware: {
-        publicPath: `/`,
-        writeToDisk: true,
-        stats: "errors-only"
-      },
-      headers: { "Access-Control-Allow-Origin": "*" },
-      historyApiFallback: true,
-      hot: true,
-      onListening(devServer) {
-        if (!devServer) throw new Error("webpack-dev-server is not defined");
-        const { port } = devServer.server.address();
-        process.stdout.write(
-          `  Listening on port: ${chalk.green.bold(port)}\n`
-        );
+        "@Assets": resolve(__dirname, "../src/assets"),
+        react: "preact/compat",
+        "react-dom/test-utils": "preact/test-utils",
+        "react-dom": "preact/compat", // Must be below test-utils
+        "react/jsx-runtime": "preact/jsx-runtime"
       }
     },
     plugins,
-    devtool: !isProd && "eval",
+    //devtool: !isProd && "eval",
     module: {
       rules: [
         {
-          test: /\.(xml|html|txt|md)$/,
-          use: "raw-loader"
+          test: /\.html$/i,
+          loader: "html-loader"
         },
         {
           test: /\.ico$/,
@@ -103,10 +79,23 @@ module.exports = env => {
           use: isProd ? [MiniCssExtractPlugin.loader, ...cssGroup] : cssGroup
         },
         {
-          test: /\.jsx?$/,
+          test: /\.m?js$/,
+          exclude: /node_modules/,
           use: {
             loader: "babel-loader",
-            options: babel
+            options: {
+              presets: ["@babel/preset-react", "@babel/preset-env"],
+              plugins: [
+                ["@babel/plugin-transform-runtime"],
+                [
+                  "@babel/plugin-transform-react-jsx",
+                  {
+                    pragma: "h",
+                    pragmaFrag: "Fragment"
+                  }
+                ]
+              ]
+            }
           }
         }
       ]
