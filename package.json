@@ -2,7 +2,7 @@
 	"name": "webpack-jarvis",
 	"version": "1.0.0",
 	"description": "A very intelligent webpack dashboard",
-	"main": "dist/index.js",
+	"main": "dist/server/index.js",
 	"files": [
 		"dist"
 	],
@@ -13,6 +13,7 @@
 		"contributors:generate": "all-contributors generate",
 		"watch": "yarn dev",
 		"start": "yarn dev",
+		"build:production": "sh ./scripts/build.sh",
 		"dev": "NODE_ENV=development webpack -w --config webpack.js",
 		"build": "NODE_ENV=production webpack --config webpack.js"
 	},
