@@ -1,27 +1,39 @@
-import { h, Component } from "preact";
+import { h, Component } from "preact"
 
-import MiniCard from "./mini-card";
-import Bundlelist from "./bundles-list";
-import Terminal from "./terminal";
-import Table from "./table";
-import PerfBudget from "./perf-budget";
+import MiniCard from "./mini-card"
+import Bundlelist from "./bundles-list"
+import Terminal from "./terminal"
+import Table from "./table"
+import PerfBudget from "./perf-budget"
 
-import Favicon from "react-favicon";
+import { readableBytes } from "../helpers/utils"
+import Nav from "./nav"
 
-import { readableBytes } from "../helpers/utils";
-import Nav from "./nav";
+function formatMessage(data) {
+	try {
+		const { decode } = new TextDecoder("utf-8")
+		decode(data)
+	} catch {
+		try {
+			return JSON.parse(data)
+		} catch {
+			return data
+		}
+	}
+}
 
-import io from "socket.io-client";
+function getTimestamp() {
+	return new Date().getTime()
+}
 
 /**
  * for JARVIS DEVELOPER
  * Enforcing port is allowed and force_socket_port takes highest priority
  *
  */
-const _params = new URLSearchParams(window.location.search);
-const port = _params.get("force_socket_port") || document.location.port;
-
-const socket = io(`${document.location.hostname}:${port}`);
+const _params = new URLSearchParams(window.location.search)
+const port = _params.get("force_socket_port") || document.location.port
+const ws = new WebSocket(`ws://${document.location.hostname}:${port}`)
 
 export default class Board extends Component {
 	state = {
@@ -39,64 +51,55 @@ export default class Board extends Component {
 		logs: [],
 		performance: {},
 		project: {},
-	};
+	}
 
 	componentDidMount() {
-		socket.on("project", (report) => {
-			console.log("report", report);
-			this.setState({ project: report });
-		});
-		socket.on("stats", (report) => {
-			console.log("stats", report);
-			let logs = [];
-			if (report.errors && report.errors.length > 0) {
-				logs = report.errors;
-			}
-			if (report.warnings && report.warnings.length > 0) {
-				logs = report.warnings;
-			}
-			if (report.success && report.success.length > 0) {
-				logs = report.success;
-			}
-			this.setState({
-				assets: report.assets || [],
-				errors: report.errors || [],
-				warnings: report.warnings || [],
-				success: report.success || [],
-				time: report.time / 1e3 || 0,
-				modules: report.modules || [],
-				performance: report.performance || {},
-				assetsSize: report.assetsSize || "NaN",
-				logs: logs,
-			});
-		});
-		socket.on("progress", (data) => {
-			console.log("progress", report);
-			this.setState({ progress: data });
-			if (data.message.toLowerCase() !== "idle") {
-				this.setState({
-					progress: data,
-					logs: [
-						`<p>${data.message}</p>`,
-						`<p>${(data.percentage * 100).toFixed(2)}%</p>`,
-					],
-				});
-			}
-		});
-		window.io = socket;
-	}
-	render(props, state) {
-		const ico =
-			state.progress.percentage >= 1
-				? state.errors.length > 0
-					? "failure"
-					: "success"
-				: "building";
+		ws.onopen = () => console.log("Connection established")
 
+		ws.onmessage = ({ isTrusted, data }) => {
+			if (!isTrusted) return
+			const { project, stats, progress } = formatMessage(data)
+
+			if (project) this.setState({ project })
+
+			if (stats) {
+				const { assets, assetsSize, errors, modules, success, time, warnings } = stats
+
+				let logs = []
+				if (errors?.length) logs = stats.errors
+				if (warnings?.length) logs = stats.warnings
+				if (success?.length) logs = stats.success
+
+				this.setState({
+					assets: assets || [],
+					errors: errors || [],
+					warnings: warnings || [],
+					success: success || [],
+					time: time / 1e3 || 0,
+					modules: modules || [],
+					//performance: stats?.performance || {},
+					assetsSize: assetsSize || "NaN",
+					logs,
+				})
+			}
+
+			if (progress) {
+				const { percent, msg } = progress
+				if (msg?.toLowerCase() !== "idle") {
+					this.setState({
+						progress: percent,
+						logs: [`<p>${msg}</p>`, `<p>${(percent * 100).toFixed(2)}%</p>`],
+					})
+				}
+			}
+		}
+
+		ws.onclose = () => console.log("disconnected")
+	}
+
+	render(props, state) {
 		return (
 			<div className="board">
-				<Favicon url={`/assets/favicons/${ico}.ico`} animated={false} />
-
 				<Nav {...state.project} />
 
 				<div className="widget col-xs-12 col-md-4 col-lg-3">
@@ -139,6 +142,6 @@ export default class Board extends Component {
 					<PerfBudget assetsSize={state.assetsSize} />
 				</div>
 			</div>
-		);
+		)
 	}
 }

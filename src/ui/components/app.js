@@ -1,8 +1,8 @@
-import { h } from "preact";
-import Board from "./board";
+import { h } from "preact"
+import Board from "./board"
 
 function Main() {
-	return <Board />;
+	return <Board />
 }
 
-export default Main;
+export default Main
