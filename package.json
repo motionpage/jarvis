@@ -13,7 +13,7 @@
 		"contributors:generate": "all-contributors generate",
 		"watch": "yarn dev",
 		"start": "yarn dev",
-		"dev": "NODE_ENV=development webpack -w --config webpack.dev.js"
+		"dev": "NODE_ENV=development webpack -w --config webpack.js"
 	},
 	"engines": {
 		"node": ">=8.0.0"
@@ -33,6 +33,7 @@
 	},
 	"dependencies": {
 		"ansi-to-html": "^0.7.2",
+		"chalk": "^5.1.2",
 		"import-from": "^4.0.0",
 		"polka": "^0.5.2",
 		"preact": "^10.11.1",
@@ -45,8 +46,10 @@
 		"clean-webpack-plugin": "^4.0.0",
 		"css-loader": "^6.7.1",
 		"esbuild-loader": "^2.20.0",
+		"filemanager-webpack-plugin": "^7.0.0",
 		"html-webpack-plugin": "^5.5.0",
 		"husky": "^8.0.1",
+		"license-webpack-plugin": "^4.0.2",
 		"lint-staged": "^13.0.3",
 		"mini-css-extract-plugin": "^2.6.1",
 		"postcss-loader": "^7.0.1",
