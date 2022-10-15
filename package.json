@@ -1,19 +1,22 @@
 {
-	"name": "webpack-lopx",
-	"version": "0.1.0",
-	"description": "Webpack Dashboard",
+	"name": "webpack-jarvis",
+	"version": "1.0.0",
+	"description": "A very intelligent webpack dashboard",
 	"main": "dist/index.js",
 	"files": [
 		"dist"
 	],
 	"type": "module",
 	"scripts": {
+		"precommit": "lint-staged",
+		"contributors:add": "all-contributors add",
+		"contributors:generate": "all-contributors generate",
 		"watch": "yarn dev",
 		"start": "yarn dev",
 		"dev": "NODE_ENV=development webpack -w --config webpack.dev.js"
 	},
 	"engines": {
-		"node": ">=6.0.0"
+		"node": ">=8.0.0"
 	},
 	"repository": {
 		"type": "git",
@@ -37,47 +40,26 @@
 		"ws": "^8.9.0"
 	},
 	"devDependencies": {
-		"@babel/core": "^7.19.3",
-		"@babel/plugin-transform-object-assign": "^7.18.6",
-		"@babel/plugin-transform-runtime": "^7.19.1",
-		"@babel/preset-env": "^7.19.4",
-		"@babel/preset-react": "^7.18.6",
 		"all-contributors-cli": "^6.24.0",
 		"autoprefixer": "^10.4.12",
-		"babel": "^6.23.0",
-		"babel-loader": "^8.2.5",
-		"babel-plugin-import": "^1.13.5",
-		"babel-plugin-jsx-pragmatic": "^1.0.2",
-		"babel-plugin-transform-decorators-legacy": "^1.3.4",
-		"babel-plugin-transform-object-assign": "^6.22.0",
-		"babel-plugin-transform-react-constant-elements": "^6.23.0",
-		"babel-plugin-transform-react-jsx": "^6.24.1",
-		"babel-plugin-transform-react-remove-prop-types": "^0.4.6",
-		"babel-preset-stage-0": "^6.24.1",
 		"clean-webpack-plugin": "^4.0.0",
 		"css-loader": "^6.7.1",
 		"esbuild-loader": "^2.20.0",
-		"extract-text-webpack-plugin": "^3.0.0",
-		"file-loader": "^6.2.0",
 		"html-webpack-plugin": "^5.5.0",
 		"husky": "^8.0.1",
 		"lint-staged": "^13.0.3",
 		"mini-css-extract-plugin": "^2.6.1",
-		"ncp": "^2.0.0",
 		"postcss-loader": "^7.0.1",
 		"postcss-scss": "^4.0.5",
 		"prettier": "^2.7.1",
-		"raw-loader": "^4.0.2",
 		"sass": "^1.55.0",
 		"sass-loader": "^13.1.0",
 		"sirv": "^2.0.2",
 		"style-loader": "^3.3.1",
-		"svg-url-loader": "^8.0.0",
 		"webpack": "^5.74.0",
 		"webpack-cli": "^4.10.0",
 		"webpack-dev-middleware": "^5.3.3",
-		"webpack-hot-middleware": "^2.21.0",
-		"webpack-node-externals": "^3.0.0"
+		"webpack-hot-middleware": "^2.21.0"
 	},
 	"lint-staged": {
 		"src/**/*.{js,json,scss}": [
