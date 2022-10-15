@@ -1,12 +1,8 @@
-import { h } from "preact";
-import "./style.scss";
-import If from "../utils/condition-component";
+import { h } from "preact"
+import "./style.scss"
+import If from "../utils/condition-component"
 
-const Nav = ({
-	name = "",
-	version = "NaN",
-	makers = { name: "", email: "", url: "" },
-}) => {
+const Nav = ({ name = "", version = "NaN", makers = { name: "", email: "", url: "" } }) => {
 	const emailLink = (
 		<If
 			condition={makers.email}
@@ -16,7 +12,7 @@ const Nav = ({
 				</a>
 			}
 		/>
-	);
+	)
 
 	const webLink = (
 		<If
@@ -27,7 +23,7 @@ const Nav = ({
 				</a>
 			}
 		/>
-	);
+	)
 
 	return (
 		<ul className="nav">
@@ -40,7 +36,7 @@ const Nav = ({
 			</li>
 			<li className="snippets">snippets</li>
 		</ul>
-	);
-};
+	)
+}
 
-export default Nav;
+export default Nav

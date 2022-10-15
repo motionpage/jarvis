@@ -1,9 +1,9 @@
-import { h, Component } from "preact";
-import Markup from "preact-markup";
+import { h, Component } from "preact"
+import Markup from "preact-markup"
 
-import "./style.scss";
+import "./style.scss"
 
-import SearchButton from "../search-button";
+import SearchButton from "../search-button"
 
 export default class Chart extends Component {
 	state = {
@@ -11,48 +11,44 @@ export default class Chart extends Component {
 		text: null,
 		googleBaseUrl: `https://www.google.com/search?q=`,
 		stackBaseUrl: `https://stackoverflow.com/search?q=`,
-	};
+	}
 	// I don't want a re-render on mouse events
 	_highlightState = {
 		started: false,
 		mouseX: 0,
-	};
+	}
 
 	highlightStart = (e) => {
-		this._highlightState.mouseX = e.clientX;
-		this._highlightState.start = true;
-	};
+		this._highlightState.mouseX = e.clientX
+		this._highlightState.start = true
+	}
 
 	highlightEnd = (e) => {
-		if (!this._highlightState.start) return;
+		if (!this._highlightState.start) return
 
-		let _selection = window.getSelection();
+		let _selection = window.getSelection()
 
-		let text = _selection.toString();
+		let text = _selection.toString()
 
 		if (text.length > 0) {
 			this.setState({
 				showActionBtn: true,
 				text: text.replace(/\s/g, "+"),
-			});
+			})
 		} else {
-			this.resetState();
+			this.resetState()
 		}
-	};
+	}
 	resetState = () => {
 		this.setState({
 			showActionBtn: false,
 			text: "",
-		});
-	};
+		})
+	}
 
 	render(props, { showActionBtn, text, googleBaseUrl, stackBaseUrl }) {
 		return (
-			<div
-				className="terminal"
-				onmousedown={this.highlightStart}
-				onmouseup={this.highlightEnd}
-			>
+			<div className="terminal" onmousedown={this.highlightStart} onmouseup={this.highlightEnd}>
 				{props.logs.map((log) => (
 					<Markup trim={false} markup={`<div>${log}</div>`} />
 				))}
@@ -62,6 +58,6 @@ export default class Chart extends Component {
 					<SearchButton stackoverflow href={stackBaseUrl + text} />
 				</div>
 			</div>
-		);
+		)
 	}
 }

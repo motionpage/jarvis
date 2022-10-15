@@ -1,11 +1,11 @@
-import { h, Component } from "preact";
-import If from "../utils/condition-component";
+import { h, Component } from "preact"
+import If from "../utils/condition-component"
 
-import "./style.scss";
+import "./style.scss"
 
 export default class MiniCard extends Component {
 	render(props) {
-		const { color, title, status, note, progress } = props;
+		const { color, title, status, note, progress } = props
 		return (
 			<div className={`mini ${color}`}>
 				<div className="card-header">{title}</div>
@@ -20,6 +20,6 @@ export default class MiniCard extends Component {
 					}
 				/>
 			</div>
-		);
+		)
 	}
 }

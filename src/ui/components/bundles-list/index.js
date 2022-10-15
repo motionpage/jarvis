@@ -1,8 +1,8 @@
-import { h, Component } from "preact";
-import { readableBytes } from "../../helpers/utils";
-import If from "../utils/condition-component";
+import { h, Component } from "preact"
+import { readableBytes } from "../../helpers/utils"
+import If from "../utils/condition-component"
 
-import "./style.scss";
+import "./style.scss"
 
 const ChunkList = (props) => {
 	return (
@@ -14,11 +14,11 @@ const ChunkList = (props) => {
 				</li>
 			))}
 		</ul>
-	);
-};
+	)
+}
 
 const Asset = (props) => {
-	let bundle = props.bundle;
+	let bundle = props.bundle
 	return (
 		<li className="bundles">
 			<span>{bundle.name}</span>
@@ -34,8 +34,8 @@ const Asset = (props) => {
 			</p>
 			<ChunkList chunks={bundle.chunks} chunkNames={bundle.chunkNames} />
 		</li>
-	);
-};
+	)
+}
 
 export default class MiniCard extends Component {
 	render(props) {
@@ -47,6 +47,6 @@ export default class MiniCard extends Component {
 					))}
 				</ul>
 			</div>
-		);
+		)
 	}
 }
