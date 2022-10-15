@@ -1,9 +1,9 @@
-import Lopx from "./cjs";
+import Jarvis from "./cjs"
 
 test("should set options property", () => {
 	const opts = {
 		test: "hello",
-	};
-	const plugin = new Lopx(opts);
-	expect(plugin.options).toBe(opts);
-});
+	}
+	const plugin = new Jarvis(opts)
+	expect(plugin.options).toBe(opts)
+})

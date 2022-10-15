@@ -1,11 +1,11 @@
 import { existsSync } from "fs"
 import { resolve } from "path"
 import initializeServer from "./server.js"
-import { statsReporter } from "./reporter-util.js"
+import { statsReporter } from "./utils/reporter.js"
 import webpack from "webpack"
 import importFrom from "import-from"
 
-export default class Lopx {
+export default class Jarvis {
 	constructor({ host, port, keepAlive, packagePath, watchOnly } = {}) {
 		const currentDirectory = process.cwd()
 		//console.clear()
@@ -17,13 +17,13 @@ export default class Lopx {
 		watchOnly ??= true
 
 		if (Number.isNaN(port)) {
-			console.error(`[LopX] error: the specified port (${port}) is invalid. Reverting to 1337!`)
+			console.error(`[JARVIS] error: the specified port (${port}) is invalid. Reverting to 1337!`)
 			port = 1337
 		}
 
 		if (packagePath && !existsSync(packagePath)) {
 			console.warn(
-				`[LopX] warning: the specified path (${packagePath}) does not exist. Falling back to ${currentDirectory}!`
+				`[JARVIS] warning: the specified path (${packagePath}) does not exist. Falling back to ${currentDirectory}!`
 			) //Fallback to cwd and warn
 			packagePath = currentDirectory
 		}
@@ -72,7 +72,7 @@ export default class Lopx {
 			})
 
 			await server.listen(port, host, (_) => {
-				console.log(`[LopX] Dashboard on: http://${host}:${port}`)
+				console.log(`[jarvis] Dashboard on: http://${host}:${port}`)
 				server.emit("ready", null)
 			})
 
@@ -89,23 +89,23 @@ export default class Lopx {
 			bootServer()
 		}
 
-		compiler.hooks.watchRun.tap("lopx", (c) => {
+		compiler.hooks.watchRun.tap("jarvis", (c) => {
 			if (watchOnly && !isServerRunning) {
 				console.log("booting")
 				bootServer()
 			}
 			console.log("watchRun")
 			//isWatching = true
-			return c.hooks.done.tap("webpack-jarvis", () => true)
+			return c.hooks.done.tap("jarvis", () => true)
 		})
 
-		compiler.hooks.run.tap("lopx", (c) => {
+		compiler.hooks.run.tap("jarvis", (c) => {
 			//isWatching = false
 			console.log("run")
-			return c.hooks.done.tap("lopx", () => true)
+			return c.hooks.done.tap("jarvis", () => true)
 		})
 
-		compiler.hooks.done.tap("lopx", (stats) => {
+		compiler.hooks.done.tap("jarvis", (stats) => {
 			if (!isServerRunning && !webSocket) return
 			const jsonStats = stats.toJson({ chunkModules: true })
 			jsonStats.isDev = isDevelopment

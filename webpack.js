@@ -10,7 +10,7 @@ const styles = require("./style")
 
 const dist = join(__dirname, "../dist")
 
-module.exports = env => {
+module.exports = (env) => {
 	const isProd = process.env.NODE_ENV === "production"
 
 	// Our style-loader chain

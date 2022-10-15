@@ -38,13 +38,13 @@ import { CleanWebpackPlugin } from "clean-webpack-plugin"
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = dirname(__filename)
 
-import Lopx from "./src/Lopx.js"
+import Jarvis from "./src/index.js"
 
 const config = merge(common, {
 	mode: "development",
 	devtool: "eval",
 	plugins: [
-		new Lopx(),
+		new Jarvis(),
 		//new ReactRefreshWebpackPlugin(),
 		new CleanWebpackPlugin(),
 	],

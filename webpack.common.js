@@ -33,7 +33,7 @@ const common = {
 		colors: true,
 		env: true,
 		logging: "info",
-		loggingDebug: [/LopX/],
+		loggingDebug: [/jarvis/i],
 	},
 	entry: {
 		main: "./src/ui/main.js",

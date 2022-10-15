@@ -6,7 +6,7 @@ import App from "./components/app.js"
 let root
 
 function init() {
-	root = render(<App />, document.getElementById("lopx"), root)
+	root = render(<App />, document.getElementById("jarvis"), root)
 }
 init()
 
