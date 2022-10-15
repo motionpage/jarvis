@@ -14,8 +14,8 @@
 		"watch": "yarn dev",
 		"start": "yarn dev",
 		"build:production": "sh ./scripts/build.sh",
-		"dev": "NODE_ENV=development webpack -w --config webpack.js",
-		"build": "NODE_ENV=production webpack --config webpack.js"
+		"dev": "JARVIS_ENV=development webpack -w --config webpack.js",
+		"build": "JARVIS_ENV=production webpack --config webpack.js"
 	},
 	"engines": {
 		"node": ">=8.0.0"

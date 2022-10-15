@@ -8,7 +8,7 @@ import importFrom from "import-from"
 export default class Jarvis {
 	constructor({ host, port, keepAlive, packagePath, watchOnly } = {}) {
 		const currentDirectory = process.cwd()
-		//console.clear()
+		console.clear()
 
 		host ??= "localhost"
 		port ||= parseInt(port || 1337, 10)
@@ -42,9 +42,13 @@ export default class Jarvis {
 			project: {},
 		}
 
-		const { name, version, author: makers } = this.pkg
-		const normalizedAuthor = parseAuthor(makers)
-		reports.project = { name, version, makers: normalizedAuthor }
+		const { name, version } = this.pkg
+		//const normalizedAuthor = parseAuthor(makers ?? false)
+		reports.project = {
+			name: name ?? "",
+			version: version ?? "",
+			//makers: normalizedAuthor ?? "",
+		}
 
 		let isServerRunning = false
 		let isServerBooting = false
@@ -56,7 +60,8 @@ export default class Jarvis {
 			console.log("booted")
 
 			console.log("initializeServer")
-			let { server, ws } = initializeServer(compiler, isDevelopment)
+			const isBuildDev = process.env.JARVIS_ENV && process.env.JARVIS_ENV === "development"
+			let { server, ws } = initializeServer(compiler)
 
 			ws.on("connection", function connection(socket) {
 				webSocket = socket
@@ -121,11 +126,12 @@ export default class Jarvis {
 	}
 }
 
-function parseAuthor(author) {
-	if (author?.name) return author
-	if (typeof author === "string") {
-		const authorsArray = authors(author)
-		if (authorsArray.length > 0) return authorsArray[0]
-	}
-	return { name: "", email: "", url: "" }
-}
+//function parseAuthor(author) {
+//	if (!author) return null
+//	if (author?.name) return author
+//	if (typeof author === "string") {
+//		const authorsArray = authors(author)
+//		if (authorsArray.length > 0) return authorsArray[0]
+//	}
+//	return { name: "", email: "", url: "" }
+//}

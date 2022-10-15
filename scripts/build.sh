@@ -22,7 +22,7 @@ if ! command -v rsync >/dev/null; then
 	exit 1
 fi
 
-if ! command -v yarn >/dev/null; then
+if ! command -v node >/dev/null; then
 	printf 'Yarn is not installed.\n'
 	printf 'See https://yarnpkg.com/lang/en/docs/install/ for install instructions.\n'
 	exit 1
@@ -32,6 +32,6 @@ exec yarn build --stats=errors-only | indent
 
 rsync src/public/index.html dist/index.html
 rsync -av src/public/assets dist/assets
-rsync -av --exclude="public" --exclude="ui" --exclude="utils" --exclude="index.test.js" src/ dist/server
+rsync -av --exclude="public" --exclude="ui" --exclude="index.test.js" src/ dist/server
 
 printf "${RED}${On_Purple}Bundled and Copied!!${NC}\n"

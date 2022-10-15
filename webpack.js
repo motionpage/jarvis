@@ -14,10 +14,10 @@ import { LicenseWebpackPlugin } from "license-webpack-plugin"
 //import ForkTsCheckerWebpackPlugin from "fork-ts-checker-webpack-plugin"
 //import ReactRefreshWebpackPlugin from "@pmmmwh/react-refresh-webpack-plugin";
 
-const isDev = process.env.NODE_ENV === "development"
+const isDev = process.env.JARVIS_ENV === "development"
 
 if (isDev) {
-	process.stdout.write(`  ${chalk.yellow.bold(`MODE: ${process.env.NODE_ENV}`)}\n`)
+	process.stdout.write(`  ${chalk.yellow.bold(`MODE: ${process.env.JARVIS_ENV}`)}\n`)
 	process.traceDeprecation = true
 }
 
@@ -62,8 +62,8 @@ const config = {
 		isDev && new Jarvis(),
 		new webpack.ProvidePlugin({ React: "preact" }),
 		new MiniCssExtractPlugin({
-			filename: isDev ? "[name].css" : "[name].[contenthash:8].css",
-			chunkFilename: isDev ? "[id].css" : "[id].[contenthash:8].css",
+			filename: "[name].css",
+			chunkFilename: "[id].css",
 			ignoreOrder: false,
 		}),
 		isDev && new CleanWebpackPlugin(),

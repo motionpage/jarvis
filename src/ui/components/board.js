@@ -105,41 +105,41 @@ export default class Board extends Component {
 				<div className="widget col-xs-12 col-md-4 col-lg-3">
 					<MiniCard
 						title="Compiler Status"
-						note={`done in ${state.time} sec`}
-						progress={state.progress.percentage * 100}
-						status={state.progress.message || "Idle"}
+						note={`done in ${state?.time} sec`}
+						progress={state?.progress?.percent * 100}
+						status={state?.progress?.msg || "Idle"}
 						color="fire"
 					/>
 
 					<MiniCard
 						title="Errors and Warnings"
-						status={state.errors.length}
+						status={state?.errors?.length}
 						note={
-							state.warnings.length === 0
+							state?.warnings?.length === 0
 								? "and no warnings"
-								: `and ${state.warnings.length} warnings`
+								: `and ${state?.warnings?.length} warnings`
 						}
 						color="berry"
 					/>
 					<MiniCard
 						title="Total Assets Size"
-						status={readableBytes(state.assetsSize)}
+						status={readableBytes(state?.assetsSize)}
 						note=""
 						color="evening"
 					/>
 				</div>
 				<div className="widget col-xs-12 col-md-4 col-lg-6">
-					<Terminal logs={state.logs} />
+					<Terminal logs={state?.logs} />
 				</div>
 				<div className="widget  col-xs-12 col-md-4 col-lg-3">
-					<BundleList assets={state.assets} />
+					<BundleList assets={state?.assets} />
 				</div>
 
 				<div className="widget col-xs-12 col-md-4 col-lg-6">
-					<Table data={state.modules} />
+					<Table data={state?.modules} />
 				</div>
 				<div className="widget col-xs-12 col-md-8 col-lg-6">
-					<PerfBudget assetsSize={state.assetsSize} />
+					<PerfBudget assetsSize={state?.assetsSize} />
 				</div>
 			</div>
 		)

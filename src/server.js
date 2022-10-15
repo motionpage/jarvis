@@ -9,10 +9,9 @@ import webpackDevMiddleware from "webpack-dev-middleware"
 import webpackHotMiddleware from "webpack-hot-middleware"
 
 const __dirname = dirname(fileURLToPath(import.meta.url))
-const __public = resolve(__dirname, "public")
-
 export default function initializeServer(compiler, isDev) {
 	//const app = polka({ createServer }).use(files);
+	const __public = resolve(__dirname, isDev ? "public" : "../")
 	const middlewares = polka().use(sirv(__public))
 
 	if (isDev) {
