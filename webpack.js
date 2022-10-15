@@ -210,28 +210,28 @@ const config = {
 			},
 		],
 	},
-	optimization: {
-		runtimeChunk: "single",
-		splitChunks: {
-			chunks: "all",
-			maxInitialRequests: 30,
-			minSize: 80_000,
-			automaticNameDelimiter: ".",
-			cacheGroups: {
-				vendor: {
-					test: /[\\/]node_modules[\\/]/,
-					name(module) {
-						const moduleFileName = module
-							.identifier()
-							.split("/")
-							.reduceRight((item) => item)
-						return `npm.${moduleFileName.replace(/\.js$/gim, "").replace("@", "")}`
-					},
-				},
-			},
-		},
-		minimizer: [isDev && new ESBuildMinifyPlugin({ css: true })].filter(Boolean),
-	},
+	//optimization: {
+	//	runtimeChunk: "single",
+	//	splitChunks: {
+	//		chunks: "all",
+	//		maxInitialRequests: 30,
+	//		minSize: 80_000,
+	//		automaticNameDelimiter: ".",
+	//		cacheGroups: {
+	//			vendor: {
+	//				test: /[\\/]node_modules[\\/]/,
+	//				name(module) {
+	//					const moduleFileName = module
+	//						.identifier()
+	//						.split("/")
+	//						.reduceRight((item) => item)
+	//					return `npm.${moduleFileName.replace(/\.js$/gim, "").replace("@", "")}`
+	//				},
+	//			},
+	//		},
+	//	},
+	//	minimizer: [isDev && new ESBuildMinifyPlugin({ css: true })].filter(Boolean),
+	//},
 	output: {
 		chunkFilename: "[id].[contenthash:8].js",
 		filename: "[name].js",
