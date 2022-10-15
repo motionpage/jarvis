@@ -1,13 +1,13 @@
 import { h, Component } from "preact"
 
-import MiniCard from "./mini-card"
-import Bundlelist from "./bundles-list"
+import MiniCard from "./MiniCard/MiniCard"
+import BundleList from "./BundleList/BundleList"
 import Terminal from "./terminal"
 import Table from "./table"
 import PerfBudget from "./perf-budget"
 
 import { readableBytes } from "../helpers/utils"
-import Nav from "./nav"
+import Nav from "./Nav/Nav"
 
 function formatMessage(data) {
 	try {
@@ -132,7 +132,7 @@ export default class Board extends Component {
 					<Terminal logs={state.logs} />
 				</div>
 				<div className="widget  col-xs-12 col-md-4 col-lg-3">
-					<Bundlelist assets={state.assets} />
+					<BundleList assets={state.assets} />
 				</div>
 
 				<div className="widget col-xs-12 col-md-4 col-lg-6">

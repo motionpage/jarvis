@@ -3,7 +3,7 @@ import Markup from "preact-markup"
 
 import "./style.scss"
 
-import SearchButton from "../search-button"
+import SearchButton from "../SearchButton/SearchButton"
 
 export default class Chart extends Component {
 	state = {
