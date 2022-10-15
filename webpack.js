@@ -73,91 +73,91 @@ const config = {
 		//	logger: "webpack-infrastructure"
 		//	//formatter: "codeframe", //?
 		//}),
-		!isDev &&
-			new LicenseWebpackPlugin({
-				stats: { warnings: false, errors: true },
-				outputFilename: "LICENSES",
-				perChunkOutput: false,
-				addBanner: false,
-				unacceptableLicenseTest: (licenseType) => {
-					const typesArray = [
-						"Apache-2.0",
-						"Apache-2.0 WITH LLVM-exception",
-						"BSD-2-Claus",
-						"BSD-3-Clause",
-						"MIT",
-						"ISC",
-						"0BSD",
-						"BSD-3-Clause-Clear",
-					]
-					return !typesArray.includes(licenseType)
-				},
-				handleUnacceptableLicense: (packageName, licenseType) => {
-					process.stdout.write(
-						`  ${chalk.red.bold(`${licenseType}:`)} ${chalk.green.bold(packageName)}\n`
-					)
-				},
-				handleMissingLicenseText: (packageName) => {
-					process.stdout.write(
-						`  Cannot find license text for ${chalk.red.bold(`${packageName}`)}\n`
-					)
-				},
-				licenseTextOverrides: {
-					mistql: "Copyright (c) 2022 Evin Sellin",
-				},
-			}),
-		!isDev &&
-			new FileManagerPlugin({
-				runTasksInSeries: true,
-				events: {
-					onEnd: [
-						{
-							delete: [
-								EXPORT_FOLDER,
-								`${PLUGIN_NAME}${ZIP}`,
-								`${DESKTOP_MAC_OS}${PLUGIN_NAME}${ZIP}`,
-							],
-						},
-						{ mkdir: [EXPORT_FOLDER, EXPORT_PATH] },
-						{
-							copy: [
-								{ source: "dist", destination: `${EXPORT_PATH}/dist`, options: COPY_OPTS },
-								{
-									source: "LICENSES",
-									destination: `${EXPORT_PATH}/LICENSES`,
-									options: COPY_OPTS,
-								},
-								{ source: "LICENSE", destination: `${EXPORT_PATH}/`, options: COPY_OPTS },
-								{ source: "*.{php,txt}", destination: EXPORT_PATH, options: COPY_OPTS },
-								{ source: "core/", destination: `${EXPORT_PATH}/core`, options: COPY_OPTS },
-							],
-						},
-						//{ delete: [`${EXPORT_PATH}/dist/**.LICENSE.txt`] },
-						{
-							archive: [
-								{
-									source: EXPORT_FOLDER,
-									destination: `${PLUGIN_NAME}${ZIP}`,
-									format: "zip",
-									options: {
-										gzip: true,
-										gzipOptions: { level: 9 },
-									},
-								},
-							],
-						},
-						{
-							move: [
-								{
-									source: `${PLUGIN_NAME}${ZIP}`,
-									destination: `${DESKTOP_MAC_OS}${PLUGIN_NAME}${ZIP}`,
-								},
-							],
-						},
-						{ delete: [EXPORT_FOLDER, `${PLUGIN_NAME}${ZIP}`] },
-					],
-				},
-			}),
+		//!isDev &&
+		//	new LicenseWebpackPlugin({
+		//		stats: { warnings: false, errors: true },
+		//		outputFilename: "LICENSES",
+		//		perChunkOutput: false,
+		//		addBanner: false,
+		//		unacceptableLicenseTest: (licenseType) => {
+		//			const typesArray = [
+		//				"Apache-2.0",
+		//				"Apache-2.0 WITH LLVM-exception",
+		//				"BSD-2-Claus",
+		//				"BSD-3-Clause",
+		//				"MIT",
+		//				"ISC",
+		//				"0BSD",
+		//				"BSD-3-Clause-Clear",
+		//			]
+		//			return !typesArray.includes(licenseType)
+		//		},
+		//		handleUnacceptableLicense: (packageName, licenseType) => {
+		//			process.stdout.write(
+		//				`  ${chalk.red.bold(`${licenseType}:`)} ${chalk.green.bold(packageName)}\n`
+		//			)
+		//		},
+		//		handleMissingLicenseText: (packageName) => {
+		//			process.stdout.write(
+		//				`  Cannot find license text for ${chalk.red.bold(`${packageName}`)}\n`
+		//			)
+		//		},
+		//		licenseTextOverrides: {
+		//			mistql: "Copyright (c) 2022 Evin Sellin",
+		//		},
+		//	}),
+		//!isDev &&
+		//	new FileManagerPlugin({
+		//		runTasksInSeries: true,
+		//		events: {
+		//			onEnd: [
+		//				{
+		//					delete: [
+		//						EXPORT_FOLDER,
+		//						`${PLUGIN_NAME}${ZIP}`,
+		//						`${DESKTOP_MAC_OS}${PLUGIN_NAME}${ZIP}`,
+		//					],
+		//				},
+		//				{ mkdir: [EXPORT_FOLDER, EXPORT_PATH] },
+		//				{
+		//					copy: [
+		//						{ source: "dist", destination: `${EXPORT_PATH}/dist`, options: COPY_OPTS },
+		//						{
+		//							source: "LICENSES",
+		//							destination: `${EXPORT_PATH}/LICENSES`,
+		//							options: COPY_OPTS,
+		//						},
+		//						{ source: "LICENSE", destination: `${EXPORT_PATH}/`, options: COPY_OPTS },
+		//						{ source: "*.{php,txt}", destination: EXPORT_PATH, options: COPY_OPTS },
+		//						{ source: "core/", destination: `${EXPORT_PATH}/core`, options: COPY_OPTS },
+		//					],
+		//				},
+		//				//{ delete: [`${EXPORT_PATH}/dist/**.LICENSE.txt`] },
+		//				{
+		//					archive: [
+		//						{
+		//							source: EXPORT_FOLDER,
+		//							destination: `${PLUGIN_NAME}${ZIP}`,
+		//							format: "zip",
+		//							options: {
+		//								gzip: true,
+		//								gzipOptions: { level: 9 },
+		//							},
+		//						},
+		//					],
+		//				},
+		//				{
+		//					move: [
+		//						{
+		//							source: `${PLUGIN_NAME}${ZIP}`,
+		//							destination: `${DESKTOP_MAC_OS}${PLUGIN_NAME}${ZIP}`,
+		//						},
+		//					],
+		//				},
+		//				{ delete: [EXPORT_FOLDER, `${PLUGIN_NAME}${ZIP}`] },
+		//			],
+		//		},
+		//	}),
 	].filter(Boolean),
 	module: {
 		rules: [

@@ -13,7 +13,8 @@
 		"contributors:generate": "all-contributors generate",
 		"watch": "yarn dev",
 		"start": "yarn dev",
-		"dev": "NODE_ENV=development webpack -w --config webpack.js"
+		"dev": "NODE_ENV=development webpack -w --config webpack.js",
+		"build": "NODE_ENV=production webpack --config webpack.js"
 	},
 	"engines": {
 		"node": ">=8.0.0"
