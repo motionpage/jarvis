@@ -75,6 +75,10 @@
 }
 
 .header {
+	display: grid;
+	grid-template-columns: repeat(2, 1fr);
+	gap: 10px;
+
 	background: var(--dashboard-bg-darkest);
 	width: 100%;
 	border-bottom: 1px solid var(--dashboard-bg-main);

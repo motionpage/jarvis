@@ -2,7 +2,7 @@ import { h, Component } from "preact"
 
 import MiniCard from "./MiniCard/MiniCard"
 import BundleList from "./BundleList/BundleList"
-import Terminal from "./terminal"
+import Terminal from "./Terminal/Terminal"
 import Table from "./table"
 import PerfBudget from "./perf-budget"
 

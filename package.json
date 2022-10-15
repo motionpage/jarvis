@@ -33,6 +33,7 @@
 		"webpack": "*"
 	},
 	"dependencies": {
+		"@preact/compat": "^17.1.2",
 		"ansi-to-html": "^0.7.2",
 		"chalk": "^5.1.2",
 		"import-from": "^4.0.0",
