@@ -2,7 +2,7 @@ import { h, Component } from "preact"
 import "./style.scss"
 
 const SearchButton = ({ google, stackoverflow, href = "#" }) => {
-	const cls = Object.values({ superlink: true, google, stackoverflow }).toString()
+	const cls = Object.keys({ superlink: true, google, stackoverflow }).join(" ")
 	return <a className={cls} href={href} target="_blank" rel="noopener" />
 }
 

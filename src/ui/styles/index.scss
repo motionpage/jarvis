@@ -1,7 +1,8 @@
-@import "fonts";
-@import "grid";
-@import "backgrounds";
-@import "themes/default/config.scss";
+@import "./fonts";
+@import "./grid";
+@import "./backgrounds";
+@import "./themes/default/config.scss";
+
 html {
 	color: var(--color-dark);
 	text-rendering: optimizeLegibility;

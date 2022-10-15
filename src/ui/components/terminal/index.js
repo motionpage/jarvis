@@ -26,9 +26,9 @@ export default class Chart extends Component {
 	highlightEnd = (e) => {
 		if (!this._highlightState.start) return
 
-		let _selection = window.getSelection()
+		const _selection = window.getSelection()
 
-		let text = _selection.toString()
+		const text = _selection.toString()
 
 		if (text.length > 0) {
 			this.setState({

@@ -183,9 +183,9 @@ const config = {
 				type: "asset/resource",
 			},
 			{
-				test: /.s?css$/,
+				test: /\.s[ac]ss$/i,
 				use: [
-					isDev && MiniCssExtractPlugin.loader,
+					MiniCssExtractPlugin.loader,
 					{ loader: "css-loader", options: { sourceMap: isDev } },
 					{ loader: "sass-loader", options: { sourceMap: isDev } },
 				].filter(Boolean),
