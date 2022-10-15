@@ -1,15 +1,15 @@
 @import "./variables.scss";
 
 :root {
-	--window-bg-color-a: $dark-purple;
-	--window-bg-color-b: $light-pink;
+	--window-bg-color-a: #8041ee;
+	--window-bg-color-b: #f476b7;
 
-	--dashboard-bg-lightest: lighten($deep-dark-ocean, 90%);
-	--dashboard-bg-lighter: lighten($deep-dark-ocean, 10%);
-	--dashboard-bg-main: $deep-dark-ocean;
-	--dashboard-bg-darker: $deep-darker-ocean;
-	--dashboard-bg-darkest: $deep-darkest-ocean;
-	--dashboard-shadows: $ghost;
+	--dashboard-bg-lightest: lighten(#1c2237, 90%);
+	--dashboard-bg-lighter: lighten(#1c2237, 10%);
+	--dashboard-bg-main: #1c2237;
+	--dashboard-bg-darker: #141a2e;
+	--dashboard-bg-darkest: #171d31;
+	--dashboard-shadows: rgba(37, 45, 71, 0.34);
 
 	--color-data-1: #fb906f;
 	--color-data-2: #f16c9e;
@@ -17,19 +17,19 @@
 	--color-data-4: #5e78fe;
 	--color-data-5: #df74f9;
 	--color-data-6: #b72cf6;
-	--color-data-7: $green;
-	--color-data-8: $orange;
-	--color-data-9: $purple;
-	--color-data-10: $yellow;
+	--color-data-7: #0df9a3;
+	--color-data-8: #f55753;
+	--color-data-9: #dd71f9;
+	--color-data-10: #fdcf44;
 	--color-main: #fff;
 	--color-light: rgba(255, 255, 255, 0.7);
-	--color-dark: $black;
-	--color-error: $red;
-	--color-success: $aqua;
+	--color-dark: #2c2c2c;
+	--color-error: #ff4a50;
+	--color-success: #06ffff;
 
-	--font-body-xs: $font-sm;
-	--font-body-sm: $font-md;
+	--font-body-xs: 12px;
+	--font-body-sm: 14px;
 
-	--font-header-xs: $font-xs;
-	--font-header-sm: $font-sm;
+	--font-header-xs: 11px;
+	--font-header-sm: 12px;
 }
